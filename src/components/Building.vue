@@ -1,6 +1,6 @@
 <template>
   <main id="component" class="entity">
-    <template_head v-if="building" v-bind:title="building.name" v-bind:subtitle="building.address.suburb" :source="staticImage" :rating=building.scorecard.cumulative></template_head>
+    <template_head v-if="building" v-bind:title="building.name" v-bind:subtitle="building.address.suburb" :source="staticImage" v-bind:rating=building.scorecard.cumulative></template_head>
     <div class="standard-fit container-fluid d-flex justify-content-end flex-column">
       <section class="section" id="live">
         <div class="heading">
@@ -94,7 +94,7 @@
           </div>
         </div>
       </section>
-      <section class="section" id="scorecard">
+      <section v-if="building" class="section" id="scorecard">
         <div class="heading">
           <h6>Scorecard</h6>
         </div>
@@ -260,70 +260,66 @@
           <h6>Reviews</h6>
         </div>
         <div class="user-reviews">
-          <user_review :image="staticImage" user="Lachlan Edwards" :date="news.articles[0].date" cumulative=5 management=5 functionality=5 fittings=5 facilities=5 culture=5 neighbourhood=5 noise=5 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non risus non ligula faucibus feugiat. Morbi eget vulputate odio, sit amet pretium nulla. Nunc a metus luctus, hendrerit enim ut, tristique ex. Proin vel fermentum lectus. Nunc faucibus turpis a scelerisque aliquet. Nunc quis ultricies tortor. Aenean aliquam velit a odio dignissim, eu dignissim tellus tincidunt. Sed ut tellus magna. Mauris malesuada, nulla sit amet auctor tempor, massa lectus consectetur enim, ac faucibus lorem nisl id odio. Maecenas euismod hendrerit ante eu interdum. Vestibulum tincidunt erat justo, ac tempus nulla aliquet in. Vivamus at erat suscipit, iaculis risus nec, aliquam metus. Curabitur eget elit quis dui dignissim feugiat tempor eu leo. Vivamus congue vulputate auctor. Suspendisse lectus quam, ornare sit amet elit bibendum, scelerisque commodo dui."></user_review>
-          <user_review :image="staticImage" user="Lachlan Edwards" :date="news.articles[0].date" cumulative=5 management=5 functionality=5 fittings=5 facilities=5 culture=5 neighbourhood=5 noise=5 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non risus non ligula faucibus feugiat. Morbi eget vulputate odio, sit amet pretium nulla. Nunc a metus luctus, hendrerit enim ut, tristique ex. Proin vel fermentum lectus. Nunc faucibus turpis a scelerisque aliquet. Nunc quis ultricies tortor. Aenean aliquam velit a odio dignissim, eu dignissim tellus tincidunt. Sed ut tellus magna. Mauris malesuada, nulla sit amet auctor tempor, massa lectus consectetur enim, ac faucibus lorem nisl id odio. Maecenas euismod hendrerit ante eu interdum. Vestibulum tincidunt erat justo, ac tempus nulla aliquet in. Vivamus at erat suscipit, iaculis risus nec, aliquam metus. Curabitur eget elit quis dui dignissim feugiat tempor eu leo. Vivamus congue vulputate auctor. Suspendisse lectus quam, ornare sit amet elit bibendum, scelerisque commodo dui."></user_review>
-          <user_review :image="staticImage" user="Lachlan Edwards" :date="news.articles[0].date" cumulative=5 management=5 functionality=5 fittings=5 facilities=5 culture=5 neighbourhood=5 noise=5 text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent non risus non ligula faucibus feugiat. Morbi eget vulputate odio, sit amet pretium nulla. Nunc a metus luctus, hendrerit enim ut, tristique ex. Proin vel fermentum lectus. Nunc faucibus turpis a scelerisque aliquet. Nunc quis ultricies tortor. Aenean aliquam velit a odio dignissim, eu dignissim tellus tincidunt. Sed ut tellus magna. Mauris malesuada, nulla sit amet auctor tempor, massa lectus consectetur enim, ac faucibus lorem nisl id odio. Maecenas euismod hendrerit ante eu interdum. Vestibulum tincidunt erat justo, ac tempus nulla aliquet in. Vivamus at erat suscipit, iaculis risus nec, aliquam metus. Curabitur eget elit quis dui dignissim feugiat tempor eu leo. Vivamus congue vulputate auctor. Suspendisse lectus quam, ornare sit amet elit bibendum, scelerisque commodo dui."></user_review>
+          <user_review v-for="review in reviews" v-bind:key="review.id" :image="staticImage" :user="review.user.first + ' ' + review.user.last" :date="parseDate(review.date)" :cumulative="review.cumulative" :management="review.management" :functionality="review.functionality" :fittings="review.fittings" :facilities="review.facilities" :culture="review.culture" :neighbourhood="review.neighbourhood" :noise="review.noise" :text="review.comment"></user_review>
         </div>
         <div class="submit-review">
           <div class="image">
             <img alt="" :src="staticImage">
           </div>
-          <div class="text-box">
+          <form class="user-review-form" v-on:submit.prevent="postUserReview">
             <div class="title">Leave a Comment</div>
-            <div class="user">Posting as {{ this.$user.username }}</div>
+            <div class="user" v-if="this.$user">Posting as {{ this.$user.username }}</div>
             <div class="score">
               <div class="prop cumulative">
                 <div class="title">Cumulative</div>
-                <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="cumulative" id="score-cumulative" class="custom-dropdown" v-on:option-select="updateApartments"></options>
-                </div>
+                <div class="value">{{ calculateCumulativeScoreForReview() }}</div>
               </div>
               <div class="prop">
                 <div class="title">Management</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="management" id="score-management" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="management" id="score-management" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
               <div class="prop">
                 <div class="title">Functionality</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="functionality" id="score-functionality" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="functionality" id="score-functionality" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
               <div class="prop">
                 <div class="title">Facilities</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="facilities" id="score-facilities" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="facilities" id="score-facilities" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
               <div class="prop">
                 <div class="title">Neighbourhood</div>
                 <div class="value">
-                <options :items="['1', '2', '3', '4', '5']" param="neighbourhood" id="score-neighbourhood" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                <options :items="['5', '4', '3', '2', '1']" param="neighbourhood" id="score-neighbourhood" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
               </div>
               </div>
               <div class="prop">
                 <div class="title">Culture</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="culture" id="score-culture" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="culture" id="score-culture" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
               <div class="prop">
                 <div class="title">Fittings</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="fittings" id="score-fittings" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="fittings" id="score-fittings" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
               <div class="prop">
                 <div class="title">Noise</div>
                 <div class="value">
-                  <options :items="['1', '2', '3', '4', '5']" param="noise" id="score-noise" class="custom-dropdown" v-on:option-select="updateApartments"></options>
+                  <options :items="['5', '4', '3', '2', '1']" param="noise" id="score-noise" class="custom-dropdown" v-on:option-select="storeUserSelectedRatings"></options>
                 </div>
               </div>
             </div>
-            <textarea></textarea>
-            <button class="submit-button">Submit</button>
-          </div>
+            <textarea v-model="review.comment"></textarea>
+            <button type="submit" class="submit-button">Submit</button>
+          </form>
         </div>
       </section>
     </div>
@@ -334,7 +330,7 @@
 /* eslint-disable semi */
 /* eslint-disable camelcase */
 import template_head from './template.head.vue';
-import user_review from './user.review';
+import user_review from './user.rating';
 import Blue_card from './blue.card';
 import Apartment_card from './apartment.card';
 import Options from './options';
@@ -352,12 +348,23 @@ export default {
       building: false,
       news: false,
       apartments: false,
+      reviews: false,
       filter: {
         'for': 'lease',
         'bedroom': 'ANY',
         'bathroom': 'ANY',
         'parking': 'ANY',
         'price': 'ANY'
+      },
+      review: {
+        management: 5,
+        functionality: 5,
+        facilities: 5,
+        neighbourhood: 5,
+        culture: 5,
+        fittings: 5,
+        noise: 5,
+        comment: ''
       },
       gallery: {
         images: ['../static/test_images/1.jpg', '../static/test_images/2.jpg', '../static/test_images/3.jpg', '../static/test_images/4.jpg'],
@@ -401,6 +408,17 @@ export default {
       }).then(r => {
         vm.apartments = r.data;
       })
+      axios({
+        method: 'GET',
+        url: api + 'building/id/' + vm.$route.params.id + '/reviews',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': vm.$cookies.get('JWT')
+        }
+      }).then(r => {
+        vm.reviews = r.data;
+      })
     },
     rotateImage: function (direction) {
       var vm = this;
@@ -412,10 +430,64 @@ export default {
         vm.gallery.index++
       }
     },
+    parseDate: function (date) {
+      var formatted = new Date(date);
+      return formatted.toLocaleString();
+    },
     marker: function (map) {
       var vm = this;
       // eslint-disable-next-line
       var marker = new mapboxgl.Marker().setLngLat([vm.building.lon, vm.building.lat]).addTo(map);
+    },
+    storeUserSelectedRatings: function (item, param) {
+      var vm = this;
+      vm.review[param] = item;
+      vm.calculateCumulativeScoreForReview();
+    },
+    calculateCumulativeScoreForReview: function () {
+      var vm = this;
+      var length = Object.keys(vm.review).length - 1;
+      var total = 0;
+      for (var key in vm.review) {
+        if (key !== 'comment') {
+          total += parseInt(vm.review[key]);
+        }
+      }
+      return Math.round(total / length);
+    },
+    postUserReview: function () {
+      var vm = this;
+      var base_url = 'building/id/' + vm.$route.params.id + '/reviews/new';
+      var formattedPayload = vm.review;
+      console.log(this.$user)
+      formattedPayload['user'] = this.$user.id;
+      axios({
+        method: 'POST',
+        url: api + base_url,
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': vm.$cookies.get('JWT')
+        },
+        data: formattedPayload
+      }).then(r => {
+        vm.getReviews();
+        console.log(r);
+      })
+    },
+    getReviews: function () {
+      var vm = this;
+      axios({
+        method: 'GET',
+        url: api + 'building/id/' + vm.$route.params.id + '/reviews',
+        headers: {
+          'Content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+          'Authorization': vm.$cookies.get('JWT')
+        }
+      }).then(r => {
+        vm.reviews = r.data;
+      })
     },
     updateApartments: function (item, param) {
       var vm = this;
@@ -480,7 +552,7 @@ export default {
             vertical-align: top;
           }
         }
-        .text-box {
+        .user-review-form {
           display: flex;
           flex: 1;
           flex-direction: column;
@@ -499,8 +571,7 @@ export default {
             border: 1px solid @grey;
             padding: 1em;
             height: 25vh;
-            transition: box-shadow .5s;
-            transition: border .5s;
+            transition: box-shadow .5s, border .5s;
           }
           textarea:focus {
             .box_shadow_disp();
@@ -591,6 +662,7 @@ export default {
               background-position: center center;
               width: 100%;
               height: 100%;
+              transition: background-image .3s;
             }
           }
         }

@@ -1,5 +1,5 @@
 <template>
-  <div class="user-review">
+  <div class="user-rating">
     <div class="title-card">
       <div class="image">
         <img alt="" :src="image">
@@ -8,9 +8,9 @@
         <div class="user">{{ user }}</div>
         <div class="date">{{ date }}</div>
         <div class="score">
-          <div class="prop cumulative">
-            <div class="title">Cumulative</div>
-            <div class="value">{{ cumulative }}</div>
+          <div class="prop aggregate">
+            <div class="title">Aggregate</div>
+            <div class="value">{{ aggregate }}</div>
           </div>
           <div class="prop">
             <div class="title">Management</div>
@@ -52,7 +52,7 @@
 <script>
 /* eslint-disable semi */
 export default {
-  name: 'user_review',
+  name: 'user_rating',
   props: {
     image: {
       type: String,
@@ -66,7 +66,7 @@ export default {
       type: String,
       required: true
     },
-    cumulative: {
+    aggregate: {
       type: Number,
       required: true
     },
@@ -108,61 +108,7 @@ export default {
 
 <style lang="less" scoped>
   @import '../../src/assets/css/style';
-  @white: #FFFFFF;
-  @sm: 576px;
-  @md: 768px;
-  @lg: 992px;
-  @xl: 1200px;
-  .gradient_blue {
-    background: rgba(37,78,112,1);
-    background: -moz-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(37,78,112,1)), color-stop(100%, rgba(55,113,142,1)));
-    background: -webkit-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -o-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -ms-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: linear-gradient(to right, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-  }
-  .gradient_red {
-    background: rgba(239,98,108,1);
-    background: -moz-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(239,98,108,1)), color-stop(100%, rgba(250,130,97,1)));
-    background: -webkit-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -o-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -ms-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: linear-gradient(to right, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-  }
-  .gradient_blue_opac {
-    background: rgba(37,78,112,0.75);
-    background: -moz-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(37,78,112,0.75)), color-stop(100%, rgba(55,113,142,1)));
-    background: -webkit-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -o-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -ms-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: linear-gradient(to right, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-  }
-  .box_shadow_disp {
-    -webkit-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-    box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-  }
-  .bg_opac {
-    background: rgba(255,255,255,0.5);
-  }
-  .box_shadow_default {
-    box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-    -webkit-box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-    -moz-box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-  }
-  .box_shadow_default_small {
-    box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -webkit-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -moz-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-  }
-  .apartment_card:hover {
-    .box_shadow_disp();
-    transform: scale(1.02);
-  }
-  .user-review {
+  .user-rating {
     .title-card {
       margin-top: 1em;
       display: flex;
@@ -191,17 +137,20 @@ export default {
         }
         .date {
           text-transform: uppercase;
-          color: @grey;
+          color: @light_grey;
           font-size: 12px;
         }
         .score {
           .prop {
-            border: 1px solid @grey;
+            border: 1px solid @light_grey;
             display: inline-block;
             font-size: 0;
             margin-top: 7px;
+            border-radius: 33px;
             .title {
-              background-color: @grey;
+              background-color: @light_grey;
+              border-top-left-radius: 33px;
+              border-bottom-left-radius: 33px;
               display: inline-block;
               padding: .5em 1em;
               color: @white;
@@ -213,10 +162,10 @@ export default {
               font-size: 12px;
             }
           }
-          .prop.cumulative {
-            border: 1px solid @red;
+          .prop.aggregate {
+            border: 1px solid @purple;
             .title {
-              .gradient_red();
+              .purple_gradient();
             }
           }
         }

@@ -55,7 +55,7 @@ export default {
       .icon {
         width: 1ex;
         height: 1ex;
-        background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5OTkgNjY2LjUiPjxkZWZzPjxzdHlsZT4uY2xzLTF7ZmlsbDojOGI5NGEzO308L3N0eWxlPjwvZGVmcz48dGl0bGU+ZHJvcGRvd248L3RpdGxlPjxnIGlkPSJMYXllcl8yIiBkYXRhLW5hbWU9IkxheWVyIDIiPjxnIGlkPSJMYXllcl8xLTIiIGRhdGEtbmFtZT0iTGF5ZXIgMSI+PHBvbHlnb24gY2xhc3M9ImNscy0xIiBwb2ludHM9IjAgMCA1MDAgNjY2LjUgOTk5IDAgMCAwIi8+PC9nPjwvZz48L3N2Zz4=);
+        background-image: url(data:image/svg+xml;base64,PHN2ZyBpZD0iTGF5ZXJfMSIgZGF0YS1uYW1lPSJMYXllciAxIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5OTkgNjY2LjUiPjx0aXRsZT5kcm9wZG93bjwvdGl0bGU+PGcgaWQ9IkxheWVyXzIiIGRhdGEtbmFtZT0iTGF5ZXIgMiI+PGcgaWQ9IkxheWVyXzEtMiIgZGF0YS1uYW1lPSJMYXllciAxLTIiPjxwb2x5Z29uIHBvaW50cz0iMCAwIDUwMCA2NjYuNSA5OTkgMCAwIDAiLz48L2c+PC9nPjwvc3ZnPg==);
         background-size: 1ex;
         background-repeat: no-repeat;
         background-position: center center;
@@ -84,7 +84,6 @@ export default {
         padding-left: 1em;
         padding-right: 1em;
         cursor: pointer;
-        text-transform: capitalize;
       }
       .option:hover {
         color: @white;

@@ -1,19 +1,19 @@
 <template>
-    <div class="apartment_card">
-      <div class="card_template">
+    <div class="apartment-card">
+      <div class="card-template">
         <div class="header">
           <div class="type">Apartment</div>
           <div class="rating">
-            <div class="points">{{ rating }}</div>
+            <div class="points">aggregate: {{ rating }}</div>
           </div>
         </div>
         <div class="main">
-          <div class="inline_image">
+          <div class="inline-image">
             <div class="image">
-              <div class="image_el" v-bind:style="'background-image: url('+source+')'"></div>
+              <div class="image-el" v-bind:style="'background-image: url('+source+')'"></div>
             </div>
             <div class="desc">
-              <h6 class="subtitle">{{ bed }} <i class="fas fa-bed"></i> {{ bath }} <i class="fas fa-bath"></i> {{ car }} <i class="fas fa-car"></i> &middot; ${{ cost.toLocaleString() }}<small v-if="frequency"> PER {{ frequency }}</small></h6>
+              <h6 class="subtitle">{{ bed }} <i class="fas fa-bed"></i> {{ bath }} <i class="fas fa-bath"></i> {{ car }} <i class="fas fa-car"></i> &middot; ${{ cost.toLocaleString() }}<span v-if="frequency"> /{{ frequency }}</span></h6>
               <h3 class="title">{{ title }}</h3>
             </div>
           </div>
@@ -65,68 +65,22 @@ export default {
 
 <style lang="less" scoped>
   @import '../../src/assets/css/style';
-  @white: #FFFFFF;
-  @sm: 576px;
-  @md: 768px;
-  @lg: 992px;
-  @xl: 1200px;
-  .gradient_blue {
-    background: rgba(37,78,112,1);
-    background: -moz-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(37,78,112,1)), color-stop(100%, rgba(55,113,142,1)));
-    background: -webkit-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -o-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: -ms-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-    background: linear-gradient(to right, rgba(37,78,112,1) 0%, rgba(55,113,142,1) 100%);
-  }
-  .gradient_red {
-    background: rgba(239,98,108,1);
-    background: -moz-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(239,98,108,1)), color-stop(100%, rgba(250,130,97,1)));
-    background: -webkit-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -o-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: -ms-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-    background: linear-gradient(to right, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
-  }
-  .gradient_blue_opac {
-    background: rgba(37,78,112,0.75);
-    background: -moz-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -webkit-gradient(left top, right top, color-stop(0%, rgba(37,78,112,0.75)), color-stop(100%, rgba(55,113,142,1)));
-    background: -webkit-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -o-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: -ms-linear-gradient(left, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-    background: linear-gradient(to right, rgba(37,78,112,1) 0%, rgba(55,113,142,0.75) 100%);
-  }
-  .box_shadow_disp {
-    -webkit-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-    -moz-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-    box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.25);
-  }
-  .bg_opac {
-    background: rgba(255,255,255,0.5);
-  }
-  .box_shadow_default {
-    box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-    -webkit-box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-    -moz-box-shadow: 0px 0px 0px 0.5em rgba(255,255,255,0.5);
-  }
   .box_shadow_default_small {
     box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
     -webkit-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
     -moz-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
   }
-  .apartment_card:hover {
+  .apartment-card:hover {
     .box_shadow_disp();
     transform: scale(1.02);
   }
-  .apartment_card {
+  .apartment-card {
     transition: box-shadow .5s, transform .5s;
     cursor: pointer;
-    border-radius: 3px;
     overflow: hidden;
-    .card_template {
+    .card-template {
       .header {
-        .gradient_red_less();
+        .purple_gradient_less();
         padding: 1em;
         text-transform: uppercase;
         font-size: 12px;
@@ -134,25 +88,20 @@ export default {
         font-weight: bold;
         display: flex;
         justify-content: space-between;
-        .type {}
-        .rating {
+        .type, .rating {
           color: @white;
-          box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-          -webkit-box-shadow: 0px 0px 0px 2px rgba(255,255,255);
-          -moz-box-shadow: 0px 0px 0px 1px rgba(255,255,255,0.5);
-          border-radius: 100%;
-          width: 18px;
-          text-align: center;
+          letter-spacing: 1px;
+          font-size: 10px;
         }
       }
       .main {
         padding: 1em;
-        .gradient_red();
-        .inline_image {
+        .purple_gradient();
+        .inline-image {
           display: flex;
           .image {
             margin-right: 1em;
-            .image_el {
+            .image-el {
               width: 44px;
               height: 44px;
               -webkit-border-radius: 100%;
@@ -170,6 +119,11 @@ export default {
               color: @white;
               opacity: 0.75;
               margin-bottom: 0;
+              span {
+                font-size: 10px;
+                font-weight: bold;
+                letter-spacing: 1px;
+              }
             }
             .title {
               font-size: 24px;
