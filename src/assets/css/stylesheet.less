@@ -1,0 +1,239 @@
+/* Fonts */
+@font-face {
+  font-family: 'TT Commons';
+  src: url('../font/tt_commons_regular.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Variables */
+@sm: 576px;
+@md: 768px;
+@lg: 992px;
+@xl: 1200px;
+@standard: 14px;
+
+@white: #FFFFFF;
+@black: #323232;
+@theme: rgba(239,98,108,1);
+@default-grey: #808080;
+@border-grey: #efefef;
+@grey: #44484c;
+@grey2: #646a70;
+@grey3: #868f96;
+@grey4: #9ba4aa;
+@grey5: #b1b9bf;
+
+/* Helper */
+.ml {
+  font-family: commuters-sans, sans-serif;
+  font-weight: bold !important;
+  text-transform: lowercase;
+}
+.required {
+  color: @theme;
+}
+.field-validation {
+  color: @theme;
+}
+.ml-style-linear-gradient {
+  background: rgba(239,98,108,1);
+  background: -moz-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
+  background: -webkit-gradient(left top, right top, color-stop(0%, rgba(239,98,108,1)), color-stop(100%, rgba(250,130,97,1)));
+  background: -webkit-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
+  background: -o-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
+  background: -ms-linear-gradient(left, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
+  background: linear-gradient(to right, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
+}
+.flex-center {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+.btn.default-style {
+  .ml-style-linear-gradient();
+  font-weight: bold;
+  font-size: 10px;
+  text-transform: uppercase;
+  color: @white;
+  letter-spacing: 1px;
+  border-radius: 100px;
+  padding: 1em 2em;
+  width: 100%;
+  text-align: center;
+}
+.null {
+  width: 100%;
+  text-align: center;
+  color: @theme;
+  margin: 1rem 0;
+}
+/* Override */
+textarea, select, input, button { outline: none; }
+
+
+/* Stylesheet */
+.parent {
+  font-family: "TT Commons", sans-serif;
+  .header {
+    .map {
+      height: 33vh;
+      .mapboxgl-map {
+        height: 100%;
+      }
+    }
+    .billboard {
+      height: 33vh;
+      background-image: url('../image/cloudy-day.png');
+      background-repeat: repeat;
+    }
+  }
+  .main {
+    width: 89%;
+    margin: 0 auto;
+    .l {
+      .card {
+        margin: -8.3vh 0 0 0;
+        width: 100%;
+        z-index: 2;
+        border: 1px solid @border-grey;
+        .btn.default-style {
+          .ml-style-linear-gradient();
+          font-weight: bold;
+          font-size: 10px;
+          text-transform: uppercase;
+          color: @white;
+          letter-spacing: 1px;
+          border-radius: 100px;
+          padding: 1em 2em;
+          width: 100%;
+          text-align: center;
+        }
+        .card-text {
+          .score {
+            display: flex;
+            flex-direction: row;
+            margin: 0 0 1em 0;
+            .dot {
+              margin: 0 .1em 0 0;
+              .ml-style-linear-gradient();
+              border-radius: 1rem;
+              width: 1rem;
+              height: 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              .dot-inside {
+                .ml-style-linear-gradient();
+                border-radius: 1rem;
+                border: 2px solid @white;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+              }
+            }
+            .dot-outline {
+              margin: 0 .1em 0 0;
+              .ml-style-linear-gradient();
+              border-radius: 1rem;
+              width: 1rem;
+              height: 1rem;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              .dot-outline-inside {
+                background-color: @white;
+                border-radius: 1rem;
+                border: 2px solid @white;
+                width: calc(100% - 4px);
+                height: calc(100% - 4px);
+              }
+            }
+          }
+        }
+      }
+    }
+    .r {
+      margin: 35px 0 0 0;
+      .content {
+        margin-top: 2em;
+        .prop.map-prop {
+          width: 100%;
+          height: 50%;
+          .map {
+            width: 100%;
+            height: 100%;
+          }
+        }
+        .prop:not(:last-child) {
+          margin: 0 0 1em 0;
+        }
+        .prop {
+          .title {
+            //font-weight: bold;
+            //font-size: 10px;
+            //text-transform: uppercase;
+            color: @black;
+            //letter-spacing: 1px;
+          }
+          .value {
+            color: #808080;
+            .static-text {
+              display: flex;
+              vertical-align: middle;
+              i {
+                margin: 0 .5em 0 0;
+                font-size: 1em;
+                line-height: unset;
+              }
+            }
+            .field-set-legend {
+              display: block;
+            }
+            .field-set-input {
+              padding: 1em;
+              border: 1px solid @border-grey;
+              border-radius: 3px;
+              width: 100%;
+              margin: 0 0 1em 0;
+            }
+            .custom-dropdown {
+              padding: 1em;
+              border: 1px solid @border-grey;
+              border-radius: 3px;
+              color: @black;
+            }
+          }
+          .value:not(:last-child) {
+            //margin: 0 0 1em 0;
+          }
+        }
+      }
+      .of-nav {
+        -webkit-box-shadow: inset 0px -1px 0px 0px @grey5;
+        -moz-box-shadow: inset 0px -1px 0px 0px @grey5;
+        box-shadow: inset 0px -1px 0px 0px @grey5;
+        overflow-x: scroll;
+        overflow-y: hidden;
+        white-space: nowrap;
+        .nav {
+          .of-nav-list-items {
+            margin: 0;
+            .of-nav-link-item {
+              margin: 0;
+              color: @grey5;
+              cursor: pointer;
+              padding: 0.5em 1em;
+            }
+            .of-nav-link-item.active, .of-nav-link-item:hover {
+              -webkit-box-shadow: inset 0px -2px 0px 0px @theme;
+              -moz-box-shadow: inset 0px -2px 0px 0px @theme;
+              box-shadow: inset 0px -2px 0px 0px @theme;
+              color: @theme;
+            }
+          }
+        }
+      }
+    }
+  }
+}

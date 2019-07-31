@@ -1,6 +1,9 @@
 <template>
   <div class="article">
-    <div class="content">
+    <div class="image">
+      <img :src="image" :alt="title" />
+    </div>
+    <div class="article-content">
       <h4 class="title"><a :href="url" target="_blank">{{ title }}</a></h4>
       <p class="desc">{{ desc }}</p>
       <div class="meta">{{ source }} &middot; {{ date }}</div>
@@ -32,28 +35,51 @@ export default {
     url: {
       type: String,
       required: true
+    },
+    image: {
+      type: String,
+      required: true
     }
   }
 }
 </script>
 
 <style lang="less" scoped>
-  @import '../../src/assets/css/style';
+  @import '../../src/assets/css/stylesheet';
   .article {
     margin: 0 0 2em 0;
-    .content {
+    display: flex;
+    flex-direction: row;
+    .image {
+      width: 64px;
+      height: 64px;
+      margin: 0 1em 0 0;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100%;
+      }
+    }
+    .article-content {
+      margin: 0;
       .title {
+        margin: 0;
         a {
           font-weight: bold;
           color: @black;
         }
         a:hover {
-          color: @purple;
+          color: @theme;
           text-decoration: underline;
         }
       }
+      .desc {
+        margin: 0;
+        color: @default-grey;
+      }
       .meta {
-        .small_text();
+        font-size: 10px;
+        color: @default-grey;
       }
     }
   }

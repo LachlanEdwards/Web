@@ -26,8 +26,7 @@ module.exports = {
   entry: {
     app: './src/main.js',
     jquery: './node_modules/jquery/dist/jquery.js',
-    bootstrap: './node_modules/bootstrap/dist/js/bootstrap.js',
-    leaflet: './node_modules/leaflet/dist/leaflet.js'
+    bootstrap: './node_modules/bootstrap/dist/js/bootstrap.js'
   },
   output: {
     path: config.build.assetsRoot,

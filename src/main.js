@@ -5,21 +5,58 @@ import VueCookies from 'vue-cookies'
 import App from './App'
 import router from './router'
 import 'bootstrap/dist/css/bootstrap.css'
+import './assets/icon/css/ml_icon.css'
+import All from 'vue-ionicons/dist/ionicons.js'
+import Axios from 'axios'
+import Toast from 'vue-toasted'
+import VeeValidate from 'vee-validate'
 
-Vue.config.productionTip = false
+Vue.use(All)
+Vue.use(Toast, {
+  position: 'bottom-right',
+  duration: 5000,
+  keepOnHover: true,
+  iconPack: 'fontawesome',
+  icon: 'info-circle',
+  containerClass: 'nf',
+  className: 'nf-in'
+})
 Vue.use(VueCookies)
+Vue.use(VeeValidate)
+Vue.config.productionTip = false
 VueCookies.config('7d')
+
+Vue.prototype.$http = Axios.create({
+  baseURL: 'http://localhost:8081/',
+  headers: {
+    'Content-Type': 'application/json',
+    'Access-Control-Allow-Origin': '*',
+    'Authorization': window.$cookies.get('JWT')
+  }
+})
+
+Vue.prototype.$http.interceptors.response.use(null, function (error) {
+  if (error.response) {
+    switch (error.response.status) {
+      case 500:
+        router.push({ path: `/500` })
+        break
+      case 404:
+        router.push({ path: `/404` })
+        break
+      case 401:
+        router.push({ path: `/401` })
+        break
+      case 403:
+        router.push({ path: `/403` })
+        break
+    }
+  }
+  return Promise.reject(error)
+})
 
 let userService = Vue.mixin({
   computed: {
-    $ubool: {
-      get: function () {
-        return global.$data.$ubool
-      },
-      set: function (bool) {
-        global.$data.$ubool = bool
-      }
-    },
     $user: {
       get: function () {
         return global.$data.$user
@@ -29,26 +66,13 @@ let userService = Vue.mixin({
       }
     }
   },
-  methods: {
-    killSession: function () {
-      console.log('.kill() was called')
-      var vm = this
-      var bearer = vm.$cookies.get('JWT')
-      if (bearer) {
-        vm.$cookies.remove('JWT')
-        global.$ubool = false
-        global.$user = null
-      }
-    }
-  },
+  methods: {},
   created: function () {
-    const axios = require('axios')
     const api = 'http://localhost:8081/'
     var vm = this
     var bearer = vm.$cookies.get('JWT')
-    console.log(bearer)
     if (bearer != null) {
-      axios({
+      this.$http({
         method: 'GET',
         url: api + 'user/self',
         headers: {
@@ -57,20 +81,21 @@ let userService = Vue.mixin({
           'Authorization': bearer
         }
       }).then(function (response) {
-        if (response.data !== 'false') {
+        if (!response.error) {
           global.$user = response.data
-          global.$ubool = true
+        } else {
+          router.push(response.url)
         }
       })
+    } else if (router.path !== '/signin') {
+      router.push({ path: `/signin` })
     }
   }
 })
 
 /* eslint-disable no-new */
 let global = new Vue({
-
   data: {
-    $ubool: false,
     $user: null
   }
 })

@@ -1,22 +1,16 @@
 <template>
     <div class="apartment-card">
       <div class="card-template">
-        <div class="header">
-          <div class="type">Apartment</div>
-          <div class="rating">
-            <div class="points">aggregate: {{ rating }}</div>
-          </div>
+        <div class="image">
+          <div class="image-el" v-bind:style="'background-image: url('+source+')'"></div>
         </div>
-        <div class="main">
-          <div class="inline-image">
-            <div class="image">
-              <div class="image-el" v-bind:style="'background-image: url('+source+')'"></div>
-            </div>
-            <div class="desc">
-              <h6 class="subtitle">{{ bed }} <i class="fas fa-bed"></i> {{ bath }} <i class="fas fa-bath"></i> {{ car }} <i class="fas fa-car"></i> &middot; ${{ cost.toLocaleString() }}<span v-if="frequency"> /{{ frequency }}</span></h6>
-              <h3 class="title">{{ title }}</h3>
-            </div>
-          </div>
+        <div class="specs">
+          <div class="spec"><i class="icon-bed-outline"></i> {{ bed }}</div>
+          <div class="spec"><i class="icon-bath-outline"></i> {{ bath }}</div>
+          <div class="spec"><i class="icon-bath-outline"></i> {{ car }}</div>
+        </div>
+        <div class="desc">
+          <h3 class="cost"><div class="no">Apt. {{ title }}</div><div class="pw">${{ cost.toLocaleString() }}{{ frequency }}</div></h3>
         </div>
       </div>
     </div>
@@ -29,7 +23,8 @@ export default {
   props: {
     frequency: {
       type: String,
-      required: false
+      required: false,
+      default: ''
     },
     bed: {
       type: Number,
@@ -65,76 +60,77 @@ export default {
 
 <style lang="less" scoped>
   @import '../../src/assets/css/style';
-  .box_shadow_default_small {
-    box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -webkit-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -moz-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-  }
+  @default: #06d6a0;
+  @grey: #efefef;
+  @darker_grey: #8e8e8e;
   .apartment-card:hover {
-    .box_shadow_disp();
-    transform: scale(1.02);
   }
   .apartment-card {
-    transition: box-shadow .5s, transform .5s;
+    border: 1px solid @grey;
+    transition: box-shadow .5s;
     cursor: pointer;
     overflow: hidden;
+    border-radius: 3px;
     .card-template {
-      .header {
-        .purple_gradient_less();
-        padding: 1em;
-        text-transform: uppercase;
-        font-size: 12px;
-        color: @white;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        .type, .rating {
-          color: @white;
-          letter-spacing: 1px;
-          font-size: 10px;
+      .image {
+        width: inherit;
+        height: 300px;
+        .image-el {
+          width: inherit;
+          height: inherit;
+          background-position: center center;
+          background-size: cover;
         }
       }
-      .main {
-        padding: 1em;
-        .purple_gradient();
-        .inline-image {
-          display: flex;
-          .image {
-            margin-right: 1em;
-            .image-el {
-              width: 44px;
-              height: 44px;
-              -webkit-border-radius: 100%;
-              -moz-border-radius: 100%;
-              border-radius: 100%;
-              .box_shadow_default_small();
-              background-position: center center;
-              background-size: cover;
-            }
+      .specs {
+        float: right;
+        display: inline-flex;
+        flex-direction: row;
+        margin: -18.5px 1em 0 0;
+        background: @white;
+        padding: .5em 1em;
+        border: 1px solid @theme;
+        border-radius: 3em;
+        flex-wrap: wrap;
+        -webkit-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+        -moz-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+        box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+        .spec:not(:last-child) {
+          margin: 0 1em 0 0;
+        }
+        .spec {
+          font-weight: normal;
+          .ion {
+            display: inline;
           }
-          .desc {
-            overflow: hidden;
-            .subtitle {
-              font-size: 14px;
-              color: @white;
-              opacity: 0.75;
-              margin-bottom: 0;
-              span {
-                font-size: 10px;
-                font-weight: bold;
-                letter-spacing: 1px;
-              }
-            }
-            .title {
-              font-size: 24px;
-              color: @white;
-              opacity: 1;
-              font-weight: bold;
-              white-space: nowrap;
-              text-overflow: ellipsis;
-              overflow: hidden;
-              margin-bottom: 0;
-            }
+        }
+      }
+      .desc {
+        margin: 2em 0 0 0;
+        padding: 1em;
+        .date {
+          margin: 0 0 .5em 0;
+        }
+        .cost {
+          font-size: 24px;
+          opacity: 1;
+          font-weight: bold;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+          overflow: hidden;
+          margin-bottom: 0;
+          display: inline-block;
+          .pw, .no {
+            display: inline-block;
+          }
+          .no {
+            color: @black;
+            padding: .25em .5em .25em 0;
+          }
+          .pw {
+            color: @white;
+            .theme();
+            padding: .25em .5em;
           }
         }
       }

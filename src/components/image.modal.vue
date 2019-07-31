@@ -23,13 +23,16 @@ export default {
 <style lang="less" scoped>
   @import '../../src/assets/css/style';
   .image-modal-component {
-    z-index: 1;
+    z-index: 2147483647;
     position: fixed;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
+    -webkit-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+    -moz-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+    box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
     .exit {
       position: absolute;
       right: 1em;
@@ -48,7 +51,6 @@ export default {
       img {
         max-width: 66%;
         max-height: 66%;
-        .box_shadow_disp();
       }
     }
   }

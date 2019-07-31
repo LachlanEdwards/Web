@@ -14,9 +14,18 @@ export default {
 
 <style>
   #app {
-    font-family: 'Proxima Nova', Helvetica, Arial, sans-serif;
+    font-family: 'Helvetica Neue', 'Proxima Nova', Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     font-size: 14px;
+    font-weight: 400;
+    margin: 0 0 4rem 0;
+  }
+  .nf {
+    z-index: 2147483647;
+    font-family: "TT Commons", sans-serif;
+  }
+  .nf-in {
+    font-weight: 400 !important;
   }
 </style>

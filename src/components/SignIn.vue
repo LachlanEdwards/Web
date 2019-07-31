@@ -1,37 +1,37 @@
 <template>
-  <main id="def_component" class="def_auth">
-    <div class="def_so_container container-fluid d-flex justify-content-center align-content-center flex-column">
-        <div class="def_so_form_container">
-          <div class="def_stack">
+  <main id="def-component" class="def-auth">
+    <div class="def-so-container container-fluid d-flex justify-content-center align-content-center flex-column">
+        <div class="def-so-form-container">
+          <div class="def-stack">
             <div class="row">
-              <div class="col-lg-4 col-md-6 col-sm-12 offset-2 def_col">
+              <div class="col-lg-4 col-md-6 col-sm-12 offset-2 def-col">
                 <div class="l d-flex justify-content-center align-content-center flex-column">
-                  <div class="def_title">
+                  <div class="def-title">
                     <h1>Metlease</h1>
                   </div>
-                  <div class="def_tagline">
+                  <div class="def-tagline">
                     <h3>Your new home awaits.</h3>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-4 col-md-6 col-sm-12 def_col">
+              <div class="col-lg-4 col-md-6 col-sm-12 def-col">
                 <div class="r">
-                  <h4 class="def_form_title">Sign-in</h4>
-                  <form class="def_so_form" v-on:submit.prevent>
+                  <h4 class="def-form-title">Sign-in</h4>
+                  <form class="def-so-form" v-on:submit.prevent>
                     <div class="form-group">
-                      <fieldset class="kill_bs_fieldset def_fieldset">
-                        <legend class="def_fs_legend">Username</legend>
-                        <input ref="username" type="text" class="form-control def_fs_input" id="inputEmail" placeholder="break.p@stark.com" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
+                      <fieldset class="reset-fieldset def-fieldset">
+                        <legend class="def-fs-legend">Username</legend>
+                        <input ref="username" type="text" class="form-control def-fs-input" id="inputEmail" placeholder="break.p@stark.com" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
                       </fieldset>
                     </div>
                     <div class="form-group">
-                      <fieldset class="kill_bs_fieldset def_fieldset">
-                        <legend class="def_fs_legend">Password</legend>
-                        <input ref="password" type="password" class="form-control def_fs_input" id="inputPassword" placeholder="••••••••" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
+                      <fieldset class="reset-fieldset def-fieldset">
+                        <legend class="def-fs-legend">Password</legend>
+                        <input ref="password" type="password" class="form-control def-fs-input" id="inputPassword" placeholder="••••••••" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
                       </fieldset>
                     </div>
-                    <div class="def_cred_err" v-if="error">{{errorText}}</div>
-                    <button v-on:click="sso()" class="btn btn-primary def_so_btn" id="sec_so">Secure Sign-On</button>
+                    <div class="def-cred-err" v-if="error">{{errorText}}</div>
+                    <button v-on:click="sso()" class="btn btn-primary def-so-btn" id="sec-so">Secure Sign-On</button>
                   </form>
                 </div>
               </div>
@@ -101,50 +101,53 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-  @import '../../src/assets/css/style';
-  .def_auth {
+  @import '../../src/assets/css/stylesheet';
+  .def-auth {
+    font-family: "TT Commons", sans-serif;
     height: 100%;
-    .def_so_container {
+    .def-so-container {
       height: inherit;
-      .def_so_form_container {
-        .def_stack {
+      .def-so-form-container {
+        .def-stack {
           margin-top: 1.5rem;
-          .def_col:not(:last-child) {
+          .def-col:not(:last-child) {
             border-right: 1px solid @black;
           }
-          .def_col {
+          .def-col {
             .l {
               height: 100%;
-              .def_title {
+              .def-title {
                 h1 {
                   display: inline-block;
                   padding: .5em 1em;
-                  .gradient_red();
-                  .brand();
+                  .ml();
+                  .ml-style-linear-gradient();
                   color: @white;
                 }
               }
-              .def_tagline {
+              .def-tagline {
                 h3 {
-                  .brand_less_text_transform();
+                  .ml();
+                  text-transform: unset;
                 }
               }
             }
             .r {
-              .def_form_title {
-                .brand_less_text_transform();
+              .def-form-title {
+                .ml();
+                text-transform: unset;
               }
-              .def_so_form {
-                .def_fieldset {
+              .def-so-form {
+                .def-fieldset {
                   :focus {
-                    border-color: @blue;
+                    border-color: @theme;
                   }
-                  .def_fs_legend {
+                  .def-fs-legend {
                     text-transform: uppercase;
                     font-size: 12px;
                     padding: 0 1em;
                   }
-                  .def_fs_input {
+                  .def-fs-input {
                     border: initial;
                     padding: 0;
                     margin: 0;
@@ -152,15 +155,15 @@ export default {
                     outline: none;
                   }
                 }
-                .def_cred_err {
+                .def-cred-err {
                   color: red;
                   margin-bottom: 1em;
                   text-transform: uppercase;
                   font-weight: bold;
                   font-size: 12px;
                 }
-                .def_so_btn {
-                  .gradient_red();
+                .def-so-btn {
+                  .ml-style-linear-gradient();
                   border: initial;
                   border-radius: initial;
                   width: 100%;
@@ -169,8 +172,10 @@ export default {
                   font-size: 12px;
                   font-weight: bold;
                 }
-                .def_so_btn:hover {
-                  .box_shadow_disp();
+                .def-so-btn:hover {
+                  -webkit-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+                  -moz-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+                  box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
                 }
               }
             }

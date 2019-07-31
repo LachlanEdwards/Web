@@ -1,48 +1,26 @@
 <template>
-  <div class="user-rating">
-    <div class="title-card">
-      <div class="image">
-        <img alt="" :src="image">
-      </div>
-      <div class="meta">
-        <div class="user">{{ user }}</div>
-        <div class="date">{{ date }}</div>
-        <div class="score">
-          <div class="prop aggregate">
-            <div class="title">Aggregate</div>
-            <div class="value">{{ aggregate }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Management</div>
-            <div class="value">{{ management }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Functionality</div>
-            <div class="value">{{ functionality }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Facilities</div>
-            <div class="value">{{ facilities }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Neighbourhood</div>
-            <div class="value">{{ neighbourhood }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Culture</div>
-            <div class="value">{{ culture }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Fittings</div>
-            <div class="value">{{ fittings }}</div>
-          </div>
-          <div class="prop">
-            <div class="title">Noise</div>
-            <div class="value">{{ noise }}</div>
+  <div class="ur">
+    <div class="card mb-3" style="max-width: 100%">
+      <div class="row no-gutters">
+        <div class="col-md-1">
+          <div class="initial">
+            {{ user.split(" ")[0].charAt(0) }}{{ user.split(" ")[1].charAt(0) }}
           </div>
         </div>
-        <div class="text">
-          <p>{{ text }}</p>
+        <div class="col-md-11">
+          <div class="card-body">
+            <h5 class="card-title">{{ user }}</h5>
+            <p class="card-text">{{ text }}</p>
+            <div class="card-text dots">
+              <div v-for="n in parseInt(score)" :key="n" class="dot">
+                <div class="dot-inside"></div>
+              </div>
+              <div v-for="n in parseInt(5 - score)" :key="n" class="dot-outline">
+                <div class="dot-outline-inside"></div>
+              </div>
+            </div>
+            <p class="card-text"><small class="text-muted">{{ date }}</small></p>
+          </div>
         </div>
       </div>
     </div>
@@ -66,35 +44,7 @@ export default {
       type: String,
       required: true
     },
-    aggregate: {
-      type: Number,
-      required: true
-    },
-    management: {
-      type: Number,
-      required: true
-    },
-    functionality: {
-      type: Number,
-      required: true
-    },
-    fittings: {
-      type: Number,
-      required: true
-    },
-    facilities: {
-      type: Number,
-      required: true
-    },
-    culture: {
-      type: Number,
-      required: true
-    },
-    neighbourhood: {
-      type: Number,
-      required: true
-    },
-    noise: {
+    score: {
       type: Number,
       required: true
     },
@@ -107,70 +57,58 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import '../../src/assets/css/style';
-  .user-rating {
-    .title-card {
-      margin-top: 1em;
-      display: flex;
-      flex-direction: row;
-      .image {
+  @import '../../src/assets/css/stylesheet';
+  .ur {
+    .card {
+      border-color: @border-grey;
+      .initial {
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(-45deg, rgba(239,98,108,1) 0%, rgba(250,130,97,1) 100%);
         display: flex;
-        flex-direction: column;
-        margin-right: 1em;
-        width: 42px;
-        height: 42px;
-        img {
-          width: 42px;
-          height: 42px;
-          border-radius: 100%;
-          vertical-align: top;
-        }
+        justify-content: center;
+        align-items: center;
+        color: @white;
+        font-weight: bold;
+        font-size: 24px;
       }
-      .meta {
+      .dots {
         display: flex;
-        flex: 1;
-        flex-direction: column;
-        vertical-align: top;
-        .user {
-          font-weight: bold;
-          font-size: 16px;
-        }
-        .date {
-          text-transform: uppercase;
-          color: @light_grey;
-          font-size: 12px;
-        }
-        .score {
-          .prop {
-            border: 1px solid @light_grey;
-            display: inline-block;
-            font-size: 0;
-            margin-top: 7px;
-            border-radius: 33px;
-            .title {
-              background-color: @light_grey;
-              border-top-left-radius: 33px;
-              border-bottom-left-radius: 33px;
-              display: inline-block;
-              padding: .5em 1em;
-              color: @white;
-              font-size: 12px;
-            }
-            .value {
-              display: inline-block;
-              padding: .5em 1em;
-              font-size: 12px;
-            }
-          }
-          .prop.aggregate {
-            border: 1px solid @purple;
-            .title {
-              .purple_gradient();
-            }
+        flex-direction: row;
+        margin: 0 0 1em 0;
+        .dot {
+          margin: 0 .1em 0 0;
+          .ml-style-linear-gradient();
+          border-radius: 1rem;
+          width: 1rem;
+          height: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .dot-inside {
+            .ml-style-linear-gradient();
+            border-radius: 1rem;
+            border: 2px solid @white;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
           }
         }
-        .text {
-          margin-top: 1em;
+        .dot-outline {
+          margin: 0 .1em 0 0;
+          .ml-style-linear-gradient();
+          border-radius: 1rem;
+          width: 1rem;
+          height: 1rem;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          .dot-outline-inside {
+            background-color: @white;
+            border-radius: 1rem;
+            border: 2px solid @white;
+            width: calc(100% - 4px);
+            height: calc(100% - 4px);
+          }
         }
       }
     }

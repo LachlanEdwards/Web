@@ -45,7 +45,29 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import '../../src/assets/css/style';
+  @white: #FFFFFF;
+  @black: #333;
+  @translate_effect_dimensions: calc(299.19px + 1rem);
+  @half_translate_effect_dimensions: calc((299.19px + 1rem) / 2);
+  @negative_half_translate_effect_dimensions: calc(((299.19px + 1rem) / 2) * -1);
+  @black: #323232;
+  @grey: #8B94A3;
+  @blue: #3185FC;
+  @red: rgba(239,98,108,1);
+  @sm: 576px;
+  @md: 768px;
+  @lg: 992px;
+  @xl: 1200px;
+  @nav_height: 56px;
+  @standard: 14px;
+  @light_grey: #8e8e8e; //#A9B4C2;
+  @bg_grey: #efefef;
+  @purple: #7F7EFF;
+  .box_shadow_disp {
+    -webkit-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.5);
+    -moz-box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.5);
+    box-shadow: 0px 0px 100px 0px rgba(0,0,0,0.5);
+  }
   .select-component {
     cursor: pointer;
     display: inline-block;
