@@ -322,41 +322,42 @@ export default {
       return document.getElementById(el);
     },
     upload: function (id) {
-      const vm = this;
-      const element = vm.select('images').files;
-      var formData = new FormData();
-      for (var i = 0; i < element.length; i++) {
-        formData.append('file', element[i]);
-      }
-      this.$http({
-        method: 'POST',
-        url: 'building/id/' + id + '/multimedia',
-        data: formData,
-        headers: {
-          'content-type': 'multipart/form-data'
-        },
-        config: {
-
+      return new Promise((resolve, reject) => {
+        const vm = this;
+        const element = vm.select('images').files;
+        var formData = new FormData();
+        for (var i = 0; i < element.length; i++) {
+          formData.append('file', element[i]);
         }
-      }).then(r => {
-        console.log(r)
-      }).catch(function (error) {
-        vm.$toasted.show(error)
-        console.log(error)
+        this.$http({
+          method: 'POST',
+          url: 'building/id/' + id + '/multimedia',
+          data: formData,
+          headers: {
+            'content-type': 'multipart/form-data'
+          }
+        }).then(r => {
+          resolve(r)
+        }).catch(function (error) {
+          vm.$toasted.show(error)
+          reject(error)
+        })
       })
     },
     saveChanges: function () {
       const vm = this;
       if (this.errors.items.length <= 0) {
-        vm.button.text = 'Creating...'
+        vm.button.text = 'Creating new building...'
         vm.form.buildDate = vm.parseDate(vm.form.buildDate)
         this.$http({
           method: 'POST',
           url: 'building/new',
           data: vm.form
         }).then(async r => {
-          await vm.upload(r.data.id)
-          this.$router.push({path: `/building/${r.data.id}`})
+          vm.upload(r.data.id).then(data => {
+            vm.button.text = 'Uploading ' + vm.select('images').files.length + ' images. This may take a minute.'
+            this.$router.push({path: `/building/${r.data.id}`})
+          })
         }).catch(function (error) {
           vm.button.text = 'Create Building'
           vm.$toasted.show(error)

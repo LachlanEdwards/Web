@@ -16,8 +16,9 @@
               </div>
               <div class="col-lg-4 col-md-6 col-sm-12 column">
                 <div class="r">
-                  <h1 class="error-code">403: Forbidden.</h1>
-                  <p class="error-desc">The server understood the request but refuses to authorize it.</p>
+                  <h1 class="error-code">Please be careful.</h1>
+                  <p class="error-desc">This link might be malicious. Please follow it with care.</p>
+                  <a :href="url" class="btn action-style">Go to {{ url }}</a>
                 </div>
               </div>
             </div>
@@ -35,6 +36,12 @@ const api = 'http://localhost:8081/';
 export default {
   name: 'Home',
   components: {},
+  props: {
+    url: {
+      type: String,
+      required: true
+    }
+  },
   data () {
     return {
       username: null,
@@ -131,6 +138,7 @@ export default {
                 font-weight: 300;
                 font-size: 18px;
                 margin-bottom: unset;
+                margin: 0 0 1em 0;
               }
             }
           }

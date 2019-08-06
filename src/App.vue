@@ -19,7 +19,6 @@ export default {
     -moz-osx-font-smoothing: grayscale;
     font-size: 14px;
     font-weight: 400;
-    margin: 0 0 4rem 0;
   }
   .nf {
     z-index: 2147483647;

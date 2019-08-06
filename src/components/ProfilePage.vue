@@ -66,7 +66,7 @@
     <div class="prop">
       <div class="title">Contractor</div>
       <div class="value">
-        <div class="static-text" v-if="url(entity.contractor)"><a :href="url(entity.contractor)[2]">{{ url(entity.contractor)[1] }}</a></div>
+        <div class="static-text" v-if="url(entity.contractor)"><div class="href" @click="encode(url(entity.contractor)[2])">{{ url(entity.contractor)[1] }}</div></div>
         <div class="static-text" v-else>{{ entity.contractor }}</div>
       </div>
     </div>
@@ -79,14 +79,14 @@
     <div class="prop">
       <div class="title">Developer</div>
       <div class="value">
-        <div class="static-text" v-if="url(entity.developer)"><a :href="url(entity.developer)[2]">{{ url(entity.developer)[1] }}</a></div>
+        <div class="static-text" v-if="url(entity.developer)"><div class="href" @click="encode(url(entity.developer)[2])">{{ url(entity.developer)[1] }}</div></div>
         <div class="static-text" v-else>{{ entity.developer }}</div>
       </div>
     </div>
     <div class="prop">
       <div class="title">Manager</div>
       <div class="value">
-        <div class="static-text" v-if="url(entity.management)"><a :href="url(entity.management)[2]">{{ url(entity.management)[1] }}</a></div>
+        <div class="static-text" v-if="url(entity.management)"><div class="href" @click="encode(url(entity.management)[2])">{{ url(entity.management)[1] }}</div></div>
         <div class="static-text" v-else>{{ entity.management }}</div>
       </div>
     </div>
@@ -132,6 +132,15 @@ export default {
       // eslint-disable-next-line
       var marker = new mapboxgl.Marker().setLngLat([vm.entity.lon, vm.entity.lat]).addTo(map);
     },
+    encode (url) {
+      var vm = this
+      vm.$router.push({
+        name: 'Redirect',
+        params: {
+          url: url
+        }
+      })
+    },
     url: function (prop) {
       let expression = /(.*?)\[(.*?)\]/gm
       let result = expression.exec(prop)
@@ -147,4 +156,15 @@ export default {
 
 <style lang="less" scoped>
   @import '../../src/assets/css/stylesheet';
+  .href {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+    -webkit-text-decoration-skip: objects;
+    cursor: pointer;
+  }
+  .href:hover {
+    color: #0056b3;
+    text-decoration: underline;
+  }
 </style>

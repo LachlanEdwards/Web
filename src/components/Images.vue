@@ -70,8 +70,33 @@ export default {
   @import '../../src/assets/css/stylesheet';
   .image-grid-container {
     display: grid;
-    grid-gap: 1em;
-    grid-template-columns: 33% 33% 33%;
+    grid-gap: 40px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(50px, auto);
+    .image-grid-item:nth-child(1) {
+      grid-row: 1 / 4;
+      grid-column: 1;
+    }
+    .image-grid-item:nth-child(2) {
+      grid-row: 1 / 3;
+      grid-column: 2;
+    }
+    .image-grid-item:nth-child(3) {
+      grid-row: 1 / 4;
+      grid-column: 3;
+    }
+    .image-grid-item:nth-child(4) {
+      grid-row: 4 / 7;
+      grid-column: 1;
+    }
+    .image-grid-item:nth-child(5) {
+      grid-row: 3 / 7;
+      grid-column: 2;
+    }
+    .image-grid-item:nth-child(6) {
+      grid-row: 4 / 6;
+      grid-column: 3;
+    }
     .image-grid-item {
       object-fit: contain;
       img {

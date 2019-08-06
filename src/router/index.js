@@ -10,6 +10,8 @@ import Building from '@/components/Building'
 import Unauthorized from '@/components/Unauthorized'
 import User from '@/components/User'
 import Create from '@/components/Create'
+import Redirect from '@/components/Redirect'
+import Register from '@/components/Register'
 import feather from 'vue-icon'
 
 Vue.use(Router)
@@ -29,6 +31,11 @@ export default new Router({
       component: Create
     },
     {
+      path: '/signup',
+      name: 'Register',
+      component: Register
+    },
+    {
       path: '/signin',
       name: 'Sign In',
       component: SignIn
@@ -42,6 +49,12 @@ export default new Router({
       path: '/building/:id',
       name: 'Stage',
       component: Building
+    },
+    {
+      path: '/redirect',
+      name: 'Redirect',
+      component: Redirect,
+      props: true
     },
     {
       path: '/user/me',
