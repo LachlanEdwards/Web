@@ -21,7 +21,7 @@
 
 <script>
 import Spinner from 'vue-element-loading'
-import ImageModal from './image.modal';
+import ImageModal from './image.modal'
 export default {
   name: 'ApartmentLease',
   components: {ImageModal, Spinner},
@@ -98,9 +98,10 @@ export default {
       grid-column: 3;
     }
     .image-grid-item {
-      object-fit: contain;
       img {
-        height: auto;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
   }

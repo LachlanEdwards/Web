@@ -110,7 +110,7 @@ export default {
                 h1 {
                   display: inline-block;
                   padding: .5em 1em;
-                  .ml-style-linear-gradient();
+                  .metlease();
                   .ml();
                   color: @white;
                 }

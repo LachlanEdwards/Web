@@ -121,7 +121,7 @@ export default {
       padding: 0;
       .head {
         padding: 2em;
-        .ml-style-linear-gradient();
+        .accent();
         color: @white;
         .title {
           h2 {
@@ -141,7 +141,7 @@ export default {
         display: inline-flex;
         .action {
           border: none;
-          .ml-style-linear-gradient();
+          .accent();
           font-weight: bold;
           font-size: 10px;
           text-transform: uppercase;

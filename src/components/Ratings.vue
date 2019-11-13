@@ -5,8 +5,8 @@
         <div class="pre-text"><i class="icon-star-outline"></i> Rating</div>
         <options :items="['Any', '1', '2', '3', '4', '5']" param="score" id="filter-rating" class="custom-dropdown" v-on:option-select="update"></options>
       </div>
-      <div v-if="allowed" class="filter-item action-item">
-        <div class="action" v-on:click="$emit('compose')">Compose</div>
+      <div v-if="allowed" class="filter-item btn action-style">
+        <div class="action" v-on:click="$emit('compose')">Write a Rating</div>
       </div>
     </div>
     <spinner :active="network" spinner="spinner" color="rgba(239,98,108,1)"/>
@@ -155,7 +155,7 @@ export default {
     border: unset;
     height: 100%;
     font-weight: bold;
-    .ml-style-linear-gradient();
+    .accent();
     color: @white;
     padding: 1em;
   }

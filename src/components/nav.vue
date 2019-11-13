@@ -7,21 +7,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item">
-          <a v-if="!$user" class="nav-link" href="#">Sign-In</a>
-          <a v-else class="nav-link" href="/user/me">{{ $user.first }}'s Account</a>
+          <a v-if="!$store.getters.user" class="nav-link" href="/signin">Sign-In</a>
+          <a v-else class="nav-link" href="/user/me">{{ $store.getters.user.username }}'s Account</a>
         </li>
         <li class="nav-item">
-          <a v-if="!$user" class="nav-link" href="#">Register</a>
+          <a v-if="!$store.getters.user" class="nav-link" href="/signup">Register</a>
           <a v-else class="nav-link" v-on:click="kill">Sign-Out</a>
         </li>
         <li class="nav-item">
-          <a v-if="$user" class="nav-link" href="/new/building">Create a Building</a>
+          <a v-if="$store.getters.user" class="nav-link" href="/new/building">Create a Building</a>
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
         <input class="form-control mr-sm-2" type="search" aria-label="Search">
-        <button class="btn my-sm-0" type="submit"><i class="icon icon-search-outline"></i></button>
       </form>
+      <button class="btn my-sm-0" type="submit"><i class="material-icons">search</i></button>
     </div>
   </nav>
 </template>
@@ -33,7 +33,7 @@ export default {
   methods: {
     kill: function () {
       let vm = this
-      vm.$user = null
+      vm.$store.commit('user', null);
       vm.$cookies.remove('JWT')
       this.$router.push({ path: `/` })
     }
@@ -45,9 +45,10 @@ export default {
   @import '../../src/assets/css/stylesheet';
   .navbar {
     background: @white;
+    padding: .33em 1em;
     .navbar-brand {
       .ml();
-      .ml-style-linear-gradient();
+      .metlease();
       color: @white;
       padding: .33em 1em;
     }
@@ -62,23 +63,25 @@ export default {
       }
     }
     .form-inline {
-      border-radius: 38px;
+      border-radius: 3px;
+      border-radius: 3px 0 0 3px;
       border: 1px solid @grey5;
       .form-control {
         border: none;
         background: none;
-        border-radius: 38px;
+        outline: none;
       }
-      .btn {
-        width: 38px;
-        height: 38px;
-        border-radius: 100%;
-        background: none;
-        color: @grey5;
-        .flex-center();
-        .icon {
-          //font-size: .825em;
-        }
+    }
+    .btn {
+      height: 40px;
+      background: none;
+      color: @white;
+      border-radius: 0 3px 3px 0;
+      border: 1px solid @grey5;
+      background: @grey5;
+      .flex-center();
+      .icon {
+        color: @white;
       }
     }
   }

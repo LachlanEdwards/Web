@@ -156,7 +156,7 @@ export default {
         vm.form.birthday = vm.parseDate(vm.form.birthday)
         this.$http({
           method: 'POST',
-          url: 'secure/create',
+          url: 'account/create',
           data: vm.form
         }).then(async r => {
           this.$router.push({path: `/signin`})

@@ -64,6 +64,12 @@
       </div>
     </div>
     <div class="prop">
+      <div class="title">Strata Levy</div>
+      <div class="value">
+        <div class="static-text">${{ entity.strataLevy }} per lot a quarter</div>
+      </div>
+    </div>
+    <div class="prop">
       <div class="title">Contractor</div>
       <div class="value">
         <div class="static-text" v-if="url(entity.contractor)"><div class="href" @click="encode(url(entity.contractor)[2])">{{ url(entity.contractor)[1] }}</div></div>
@@ -90,11 +96,11 @@
         <div class="static-text" v-else>{{ entity.management }}</div>
       </div>
     </div>
-    <div class="prop" v-if="pda">
+    <div class="prop" v-if="entity.pda">
       <div class="title">Plan</div>
       <div class="value">
         <div class="static-text">
-          <a :href="pda">Planning and Development Decision</a>
+          <a :href="entity.pda">Planning and Development Decision</a>
         </div>
       </div>
     </div>

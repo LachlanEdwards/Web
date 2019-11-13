@@ -17,26 +17,30 @@
         <div class="col-lg-4 col-md-6 col-sm-12 def-col">
           <div class="r">
             <div class="stack">
-              <h4 class="title">Sign-in</h4>
+              <h4 class="title">Reset Password</h4>
               <form class="so-form" v-on:submit.prevent>
                 <div class="content">
                   <div class="prop">
                     <div class="value">
-                      <label class="field-set-legend">Username</label>
-                      <input ref="username" type="text" class="field-set-input" id="inputEmail" placeholder="break.p@stark.com" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
+                      <label class="field-set-legend">Username <span class="field-validation" v-if="errors.first('username')">{{ errors.first('username') }}</span></label>
+                      <input ref="username" type="text" class="field-set-input" id="inputUsername" name="username" placeholder="break.p@stark.com" v-validate="'required|min:2|max:999'">
                     </div>
                   </div>
                   <div class="prop">
                     <div class="value">
-                      <label class="field-set-legend">Password</label>
-                      <input ref="password" type="password" class="field-set-input" id="inputPassword" placeholder="••••••••" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
+                      <label class="field-set-legend">Password <span class="field-validation" v-if="errors.first('password')">{{ errors.first('password') }}</span></label>
+                      <input ref="password" type="password" class="field-set-input" id="inputPassword" name="password" placeholder="••••••••" v-validate="'required|min:2|max:999'">
+                    </div>
+                  </div>
+                  <div class="prop">
+                    <div class="value">
+                      <label class="field-set-legend">Confirm Password <span class="field-validation" v-if="errors.first('confirm password')">{{ errors.first('confirm password') }}</span></label>
+                      <input ref="password" type="password" class="field-set-input" id="inputConfirmPassword" name="confirm password" placeholder="••••••••" v-validate="'required|confirmed:password'" data-vv-as="password">
                     </div>
                   </div>
                 </div>
-                <div class="def-cred-err" v-if="error">{{errorText}}</div>
-                <button v-on:click="sso()" class="btn action-style" id="sec-so">Secure Sign-On</button>
-                <button v-on:click="$router.push('/signup')" class="btn action-style">Sign-Up</button>
-                <button v-on:click="$router.push('/reset/confirm')" class="btn action-style">Forgot Password</button>
+                <button v-on:click="validate()" class="btn action-style" id="sec-so">Reset Password</button>
+                <button v-on:click="$router.push('/signin')" class="btn action-style">Sign-In</button>
               </form>
             </div>
           </div>
@@ -47,6 +51,7 @@
 </template>
 
 <script>
+var qs = require('qs')
 /* eslint-disable semi */
 /* eslint-disable camelcase */
 export default {
@@ -56,39 +61,40 @@ export default {
     return {
       username: null,
       password: null,
-      error: false,
-      wasValidated: true,
-      errorText: 'Your username and password combination is incorrect.',
-      response: null,
-      elfocus: null
+      confirmPassword: null
     }
   },
   methods: {
-    focushl: function (el, state) {
-      if (state) {
-        el.parentElement.classList.add('focus');
+    validate: function () {
+      var vm = this;
+      if (this.errors.items.length <= 0) {
+        vm.submit();
       } else {
-        el.parentElement.classList.remove('focus');
+        vm.$toasted.show('You have one or more invalid fields.')
       }
     },
-    sso: function () {
+    submit: function () {
       var vm = this;
       this.$http({
         method: 'POST',
-        url: 'account/use',
-        data: {
+        url: 'user/reset/new',
+        data: qs.stringify({
           username: vm.$refs.username.value,
+          token: vm.$route.query.token,
           password: vm.$refs.password.value
+        }),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         }
       }).then(function (response) {
-        vm.response = response.data;
-        if (response.headers.authorization) {
-          vm.$cookies.set('JWT', response.headers.authorization)
-          vm.$store.commit('user', response.data);
-          vm.$router.push('/')
+        if (response.data.error) {
+          vm.$toasted.show(response.data.message)
         } else {
-          vm.error = true;
+          vm.response = response.data
+          vm.$router.push({path: `/signin`})
         }
+      }).catch(error => {
+        vm.$toasted.show(error)
       })
     }
   },
@@ -97,7 +103,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="less" scoped>
+<style lang="less">
   @import '../../src/assets/css/stylesheet';
   .parent {
     height: inherit;

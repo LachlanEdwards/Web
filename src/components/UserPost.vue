@@ -11,15 +11,16 @@
           <div class="card-body">
             <h5 class="card-title">{{ user }}</h5>
             <p class="card-text">{{ text }}</p>
-            <div class="card-text dots">
-              <div v-for="n in parseInt(score)" :key="n" class="dot">
-                <div class="dot-inside"></div>
-              </div>
-              <div v-for="n in parseInt(5 - score)" :key="n" class="dot-outline">
-                <div class="dot-outline-inside"></div>
+            <div class="files">
+              <div class="file" v-if="files" v-for="file in files" v-bind:key="file.id">
+                <div class="file-type static-text"><i class="material-icons">insert_drive_file</i> {{file.fileType}}</div>
+                <div class="file-name"><a :href="file.url">{{file.fileName}}</a></div>
               </div>
             </div>
             <p class="card-text"><small class="text-muted">{{ date }}</small></p>
+            <div class="card-buttons">
+              <div class="card-reply static-text"><i class="material-icons">add_comment</i> Reply</div>
+            </div>
           </div>
         </div>
       </div>
@@ -44,13 +45,13 @@ export default {
       type: String,
       required: true
     },
-    score: {
-      type: Number,
-      required: true
-    },
     text: {
       type: String,
       required: true
+    },
+    files: {
+      type: Array,
+      required: false
     }
   }
 }
@@ -72,42 +73,19 @@ export default {
         font-weight: bold;
         font-size: 24px;
       }
-      .dots {
+      .files {
         display: flex;
         flex-direction: row;
-        margin: 0 0 1em 0;
-        .dot {
-          margin: 0 .1em 0 0;
-          .accent();
-          border-radius: 1rem;
-          width: 1rem;
-          height: 1rem;
+        flex-wrap: wrap;
+        .file {
+          margin-right: 1em;
+          margin-bottom: 1em;
+          .button-subtle-style();
           display: flex;
-          align-items: center;
+          flex-direction: row;
           justify-content: center;
-          .dot-inside {
-            .accent();
-            border-radius: 1rem;
-            border: 2px solid @white;
-            width: calc(100% - 4px);
-            height: calc(100% - 4px);
-          }
-        }
-        .dot-outline {
-          margin: 0 .1em 0 0;
-          .accent();
-          border-radius: 1rem;
-          width: 1rem;
-          height: 1rem;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          .dot-outline-inside {
-            background-color: @white;
-            border-radius: 1rem;
-            border: 2px solid @white;
-            width: calc(100% - 4px);
-            height: calc(100% - 4px);
+          .file-type {
+            margin-right: 1em;
           }
         }
       }

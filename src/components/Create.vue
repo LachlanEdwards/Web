@@ -235,7 +235,7 @@
               </div>
               <div class="prop">
                 <div class="value">
-                <button @click="saveChanges" type="submit" class="btn default-style">{{ button.text }}</button>
+                <button @click="saveChanges" type="submit" class="btn action-style">{{ button.text }}</button>
               </div>
               </div>
             </form>
@@ -356,7 +356,7 @@ export default {
         }).then(async r => {
           vm.upload(r.data.id).then(data => {
             vm.button.text = 'Uploading ' + vm.select('images').files.length + ' images. This may take a minute.'
-            this.$router.push({path: `/building/${r.data.id}`})
+            vm.$router.push({path: `/building/${r.data.id}`})
           })
         }).catch(function (error) {
           vm.button.text = 'Create Building'

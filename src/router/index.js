@@ -13,6 +13,9 @@ import Create from '@/components/Create'
 import Redirect from '@/components/Redirect'
 import Register from '@/components/Register'
 import feather from 'vue-icon'
+import ResetPassword from '../components/ResetPassword'
+import ResetConfirmation from '../components/ResetConfirmation'
+import Search from '../components/Search'
 
 Vue.use(Router)
 Vue.use(feather, 'v-icon')
@@ -33,12 +36,45 @@ export default new Router({
     {
       path: '/signup',
       name: 'Register',
-      component: Register
+      component: Register,
+      beforeEnter: (to, from, next) => {
+        Vue.prototype.$http.get('user/self').then(response => {
+          // next(from)
+        }).catch(error => {
+          if (error.response.status === 401 || error.response.status === 400) {
+            next()
+          }
+        })
+      }
+    },
+    {
+      path: '/reset',
+      name: 'Reset',
+      component: ResetPassword
+    },
+    {
+      path: '/search',
+      name: 'Search',
+      component: Search
+    },
+    {
+      path: '/reset/confirm',
+      name: 'ResetConfirmation',
+      component: ResetConfirmation
     },
     {
       path: '/signin',
       name: 'Sign In',
-      component: SignIn
+      component: SignIn,
+      beforeEnter: (to, from, next) => {
+        Vue.prototype.$http.get('user/self').then(response => {
+          // next(from)
+        }).catch(error => {
+          if (error.response.status === 401 || error.response.status === 400) {
+            next()
+          }
+        })
+      }
     },
     {
       path: '/stage/building/:id',

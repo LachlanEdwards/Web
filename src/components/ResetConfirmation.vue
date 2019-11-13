@@ -17,26 +17,19 @@
         <div class="col-lg-4 col-md-6 col-sm-12 def-col">
           <div class="r">
             <div class="stack">
-              <h4 class="title">Sign-in</h4>
+              <h4 class="title">Reset your password</h4>
               <form class="so-form" v-on:submit.prevent>
                 <div class="content">
                   <div class="prop">
                     <div class="value">
                       <label class="field-set-legend">Username</label>
-                      <input ref="username" type="text" class="field-set-input" id="inputEmail" placeholder="break.p@stark.com" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
-                    </div>
-                  </div>
-                  <div class="prop">
-                    <div class="value">
-                      <label class="field-set-legend">Password</label>
-                      <input ref="password" type="password" class="field-set-input" id="inputPassword" placeholder="••••••••" @focus="focushl($event.target, true)" @blur="focushl($event.target, false)">
+                      <input v-model="username" type="text" class="field-set-input" id="inputEmail" placeholder="break.p@stark.com">
                     </div>
                   </div>
                 </div>
                 <div class="def-cred-err" v-if="error">{{errorText}}</div>
-                <button v-on:click="sso()" class="btn action-style" id="sec-so">Secure Sign-On</button>
-                <button v-on:click="$router.push('/signup')" class="btn action-style">Sign-Up</button>
-                <button v-on:click="$router.push('/reset/confirm')" class="btn action-style">Forgot Password</button>
+                <button v-on:click="submit()" class="btn action-style" id="sec-so">{{ button.text }}</button>
+                <button v-on:click="$router.push('/signin')" class="btn action-style">Cancel</button>
               </form>
             </div>
           </div>
@@ -49,46 +42,40 @@
 <script>
 /* eslint-disable semi */
 /* eslint-disable camelcase */
+var qs = require('qs')
 export default {
-  name: 'Home',
+  name: 'ResetConfirmation',
   components: {},
   data () {
     return {
       username: null,
-      password: null,
-      error: false,
-      wasValidated: true,
-      errorText: 'Your username and password combination is incorrect.',
-      response: null,
-      elfocus: null
+      button: {
+        text: 'Request Reset'
+      }
     }
   },
   methods: {
-    focushl: function (el, state) {
-      if (state) {
-        el.parentElement.classList.add('focus');
-      } else {
-        el.parentElement.classList.remove('focus');
-      }
-    },
-    sso: function () {
+    submit: function () {
       var vm = this;
+      vm.button.text = 'Working...'
       this.$http({
         method: 'POST',
-        url: 'account/use',
-        data: {
-          username: vm.$refs.username.value,
-          password: vm.$refs.password.value
+        url: '/user/reset',
+        data: qs.stringify({
+          username: vm.username
+        }),
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded;charset=utf-8'
         }
-      }).then(function (response) {
-        vm.response = response.data;
-        if (response.headers.authorization) {
-          vm.$cookies.set('JWT', response.headers.authorization)
-          vm.$store.commit('user', response.data);
-          vm.$router.push('/')
+      }).then(response => {
+        if (response.data.error) {
+          vm.$toasted.show(response.data.message)
+          vm.button.text = 'Request Reset'
         } else {
-          vm.error = true;
+          vm.button.text = response.data.message
         }
+      }).catch(error => {
+        vm.$toasted.show(error)
       })
     }
   },

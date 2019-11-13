@@ -17,11 +17,11 @@
                 <h5 class="card-title">{{ b.name }}, {{ b.address.suburb }}</h5>
                 <div class="card-text card-text-score">
                   <div class="score">
-                    <div v-for="(n, index) in parseInt(b.mean)" :key="index+1" class="dot">
-                      <div class="dot-inside"></div>
+                    <div v-for="(n, index) in parseInt(b.mean)" :key="index+1" class="icon-fill">
+                      <i class="icon-star-fill"></i>
                     </div>
-                    <div v-for="(n, index) in 5 - parseInt(b.mean)" :key="-index" class="dot-outline">
-                      <div class="dot-outline-inside"></div>
+                    <div v-for="(n, index) in 5 - parseInt(b.mean)" :key="-index" class="">
+                      <i class="icon-star-outline"></i>
                     </div>
                   </div>
                 </div>
@@ -30,7 +30,8 @@
                   {{ b.address.suburb }}, {{ b.address.postCode }}<br>
                   {{ b.address.state }}
                 </address>
-                <a href="#" class="btn default-style">Reside in {{ b.name }}</a>
+                <a href="#" class="btn action-style">Add Residency</a>
+                <a href="#" class="btn action-style">Add to Watchlist</a>
               </div>
             </div>
           </div>
@@ -42,10 +43,10 @@
                   <li class="of-nav-link-item list-inline-item" :class="{active: page === 'images'}" v-on:click="page = 'images'">Images</li>
                   <li class="of-nav-link-item list-inline-item" :class="{active: page === 'lease'}" v-on:click="page = 'lease'">Leasing</li>
                   <li class="of-nav-link-item list-inline-item" :class="{active: page === 'sale'}" v-on:click="page = 'sale'">Selling</li>
-                  <li class="of-nav-link-item list-inline-item" :class="{active: page === 'blog'}" v-on:click="page = 'blog'">Blog</li>
-                  <li class="of-nav-link-item list-inline-item" :class="{active: page === 'feed'}" v-on:click="page = 'feed'">News</li>
                   <li class="of-nav-link-item list-inline-item" :class="{active: page === 'ratings'}" v-on:click="page = 'ratings'">Ratings</li>
-                  <li class="of-nav-link-item list-inline-item" :class="{active: page === 'residents'}" v-on:click="page = 'residents'">Residents</li>
+                  <!-- <li class="of-nav-link-item list-inline-item" :class="{active: page === 'blog'}" v-on:click="page = 'blog'">Blog</li>
+                  <li class="of-nav-link-item list-inline-item" :class="{active: page === 'feed'}" v-on:click="page = 'feed'">News</li>
+                  <li class="of-nav-link-item list-inline-item" :class="{active: page === 'residents'}" v-on:click="page = 'residents'">Residents</li> -->
                 </ul>
               </nav>
             </div>
@@ -70,6 +71,9 @@
             <div class="content" v-if="page === 'ratings'" id="#ratings">
               <ratings :id="$route.params.id" :allowed="true" v-on:compose="new_composer(1)"></ratings>
             </div>
+            <div class="content" v-if="page === 'residents'" id="#residents">
+              <residents :id="$route.params.id" :building="b"></residents>
+            </div>
           </div>
         </div>
       </main>
@@ -90,9 +94,10 @@ import ProfilePage from './ProfilePage'
 import News from './News'
 import Ratings from './Ratings'
 import Composer from './Composer'
+import Residents from './Residents'
 export default {
   name: 'Building',
-  components: {Mapbox, mapboxgl, Composer, Ratings, Navbar, News, ProfilePage, Blog, Images, Options, ApartmentLease, ApartmentSale, Spinner},
+  components: {Mapbox, mapboxgl, Composer, Ratings, Navbar, News, ProfilePage, Blog, Images, Options, ApartmentLease, ApartmentSale, Spinner, Residents},
   data () {
     return {
       b: null,
@@ -105,7 +110,7 @@ export default {
       composer: {
         type: null,
         display: false
-      },
+      }
     }
   },
   methods: {
