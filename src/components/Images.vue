@@ -70,7 +70,7 @@ export default {
   @import '../../src/assets/css/stylesheet';
   .image-grid-container {
     display: grid;
-    grid-gap: 40px;
+    grid-gap: 1px;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: minmax(50px, auto);
     .image-grid-item:nth-child(1) {

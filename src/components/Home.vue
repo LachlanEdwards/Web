@@ -1,11 +1,14 @@
 <template>
-  <p>Home</p>
+  <div class="parent">
+    <navbar></navbar>
+    <div class="home" :style="{'background-image': `url(${require('../assets/image/building/3.jpg')})`}"></div>
+  </div>
 </template>
 
 <script>
 /* eslint-disable semi */
 /* eslint-disable camelcase */
-
+import Navbar from './nav';
 export default {
   name: 'Home',
   data () {
@@ -16,7 +19,7 @@ export default {
       }
     }
   },
-  components: {},
+  components: {Navbar},
   methods: {
     loop: function () {
       let vm = this;
@@ -47,5 +50,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="less">
-  @import '../../src/assets/css/style';
+  @import '../../src/assets/css/stylesheet';
 </style>

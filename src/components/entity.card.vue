@@ -1,28 +1,31 @@
 <template>
-  <div class="entity-card" @click="clicked">
-    <div class="card-template">
-      <div class="main">
-          <div class="details">
-            <div class="desc">
-              <div class="profile-picture">
-                <div class="profile-picture-link" :style="{backgroundImage: 'url(' + source + ')'}" ></div>
-              </div>
-              <div class="meta">
-                <div class="name">
-                  <h2>{{ title }}</h2>
-                </div>
-                <div class="suburb">
-                  <i class="fas fa-map-marker-alt"></i><span> {{ subtitle }}</span>
-                </div>
-              </div>
-            </div>
-            <div class="score">
-              <i v-for="n in parseInt(rating)" :key="n" class="fas fa-star star"></i><i v-for="n in parseInt(5 - rating)" :key="n" class="far fa-star star"></i>
-            </div>
+  <div class="card">
+    <img src="../assets/image/test_images/1.jpg" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{ entity.name }}, {{ entity.address.suburb }}</h5>
+      <div class="card-text card-text-score">
+        <div class="score" v-if="entity.mean">
+          <div v-for="(n, index) in parseInt(entity.mean)" :key="index+1" class="icon-fill">
+            <i class="icon-star-fill"></i>
+          </div>
+          <div v-for="(n, index) in 5 - parseInt(entity.mean)" :key="-index" class="">
+            <i class="icon-star-outline"></i>
           </div>
         </div>
       </div>
+      <address class="card-text text-capitalize">
+        {{ entity.address.number }} {{ entity.address.streetName }} {{entity.address.suffix.toLocaleLowerCase() }}<br>
+        {{ entity.address.suburb }}, {{ entity.address.postCode }}<br>
+        {{ entity.address.state }}
+      </address>
     </div>
+    <div class="card-footer">
+      <div class="row button-row">
+        <div class="col-md-6"><a href="#" class="btn" v-on:click="$router.push({ name: 'Update', params: { id: entity.id }})"><i class="material-icons">create</i></a></div>
+        <div class="col-md-6"><a href="#" class="btn"><i class="material-icons">clear</i></a></div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -31,23 +34,7 @@ export default {
   name: 'apartment_card',
   props: {
     entity: {
-      type: String,
-      required: true
-    },
-    subtitle: {
-      type: String,
-      required: true
-    },
-    title: {
-      type: String,
-      required: true
-    },
-    source: {
-      type: String,
-      required: true
-    },
-    rating: {
-      type: Number,
+      type: Object,
       required: true
     }
   },
@@ -60,70 +47,25 @@ export default {
 </script>
 
 <style lang="less" scoped>
-  @import '../../src/assets/css/style';
-  .hover-shadow {
-    box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -webkit-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-    -moz-box-shadow: 0px 0px 0px 4px rgba(255,255,255,0.5);
-  }
-  .entity-card:hover {
+  @import '../../src/assets/css/stylesheet';
+  .card {
     color: @black;
-    text-decoration: none;
-    .hover-shadow();
-  }
-  .entity-card {
-    border: 1px solid @grey;
-    border-radius: 3px;
-    cursor: pointer;
-    overflow: hidden;
-    color: @black;
-    .card-template {
-      .header {
-        padding: 1em;
-        text-transform: uppercase;
-        font-size: 12px;
-        font-weight: bold;
-        display: flex;
-        justify-content: space-between;
-        .type, .rating {
-          letter-spacing: 1px;
-          font-size: 10px;
+    flex-grow: 1;
+    height: 100%;
+    .card-footer {
+      background: @white;
+      padding: 0;
+      border-top-color: @border-grey;
+      .button-row {
+        .col-md-6:not(:first-child) {
+          border-left: 1px solid @border-grey;
         }
-      }
-      .main {
-        padding: 1em;
-        .details {
-          display: flex;
-          flex-direction: row;
-          align-items: center;
-          justify-content: space-between;
-          .desc {
-            overflow: hidden;
-            display: flex;
-            flex-direction: row;
-            .profile-picture {
-              margin: 0 1em 0 0;
-              .profile-picture-link {
-                border-radius: 100%;
-                background-size: cover;
-                background-position: center center;
-                background-repeat: no-repeat;
-                height: 100%;
-                width: 57.78px;
-              }
-            }
-            .meta {
-              .name {
-                font-weight: bold;
-                h2 {
-                  font-weight: inherit;
-                  margin: 0;
-                }
-              }
-              .suburb {
-                font-weight: bold;
-              }
-            }
+        .btn {
+          padding: 0;
+          text-align: center;
+          width: 100%;
+          i {
+            line-height: unset;
           }
         }
       }

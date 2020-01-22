@@ -38,7 +38,7 @@
                 <li class="of-nav-link-item list-inline-item" :class="{active: page === 'general'}" v-on:click="page = 'general'">General</li>
                 <li class="of-nav-link-item list-inline-item" :class="{active: page === 'security'}" v-on:click="page = 'security'">Security</li>
                 <li class="of-nav-link-item list-inline-item" :class="{active: page === 'buildings'}" v-on:click="page = 'buildings'">Buildings</li>
-
+                <li class="of-nav-link-item list-inline-item" :class="{active: page === 'apartments'}" v-on:click="page = 'apartments'">Apartments</li>
               </ul>
             </nav>
           </div>
@@ -120,6 +120,19 @@
               </div>
             </div>
           </div>
+          <div class="content" v-if="page === 'buildings'" id="#buildings">
+            <div class="prop">
+              <div class="title">{{user.username}}'s Buildings</div>
+              <div class="value">
+                <label class="field-set-legend">You're the admin of these buildings.</label>
+                <div class="row">
+                  <div class="col-md-4" v-for="building in buildings.data.content" v-bind:key="building.id">
+                    <entity-card class="entity" :entity="building"></entity-card>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </main>
@@ -133,12 +146,13 @@ import Options from './options';
 import Spinner from 'vue-element-loading';
 import Mapbox from 'mapbox-gl-vue';
 import Navbar from './nav.vue';
+import EntityCard from './entity.card';
 var qs = require('qs')
 const api = 'http://localhost:8081/';
 
 export default {
   name: 'User',
-  components: {Navbar, Options, Spinner, Mapbox},
+  components: {Navbar, Options, Spinner, Mapbox, EntityCard},
   data () {
     return {
       local: 'http://localhost:8080/',
@@ -146,6 +160,10 @@ export default {
       compare: false,
       user: false,
       b: false,
+      buildings: {
+        data: false,
+        page: 0
+      },
       button: {
         text: 'Update Account',
         resetPasswordText: 'Reset Password'
@@ -163,6 +181,7 @@ export default {
         if (r.data.building) {
           vm.resident(r.data.building);
         }
+        vm.building(r.data.id);
         vm.user = r.data;
         vm.compare = JSON.stringify(r.data);
       })
@@ -171,6 +190,12 @@ export default {
       var vm = this;
       this.$http('building/id/' + id).then(r => {
         vm.b = r.data;
+      })
+    },
+    building: function (id) {
+      var vm = this;
+      this.$http('building/user/' + id + '?page=' + vm.buildings.page).then(r => {
+        vm.buildings.data = r.data;
       })
     },
     parseDate: function (epoch) {

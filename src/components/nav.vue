@@ -19,7 +19,7 @@
         </li>
       </ul>
       <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" aria-label="Search">
+        <input class="form-control mr-sm-2" type="search" aria-label="Search" placeholder="Search">
       </form>
       <button class="btn my-sm-0" type="submit"><i class="material-icons">search</i></button>
     </div>
@@ -45,12 +45,12 @@ export default {
   @import '../../src/assets/css/stylesheet';
   .navbar {
     background: @white;
-    padding: .33em 1em;
+    padding: 0;
     .navbar-brand {
       .ml();
       .metlease();
       color: @white;
-      padding: .33em 1em;
+      padding: .66em 1em;
     }
     .navbar-nav {
       .nav-item {
@@ -63,9 +63,9 @@ export default {
       }
     }
     .form-inline {
-      border-radius: 3px;
-      border-radius: 3px 0 0 3px;
-      border: 1px solid @grey5;
+      border: 1px solid @border-grey;
+      background: @border-grey;
+      border-radius: 0;
       .form-control {
         border: none;
         background: none;
@@ -76,9 +76,10 @@ export default {
       height: 40px;
       background: none;
       color: @white;
-      border-radius: 0 3px 3px 0;
-      border: 1px solid @grey5;
-      background: @grey5;
+      border: 1px solid @theme;
+      border-radius: 0;
+      background: @theme;
+      margin-right: 1rem;
       .flex-center();
       .icon {
         color: @white;

@@ -12,6 +12,7 @@ import User from '@/components/User'
 import Create from '@/components/Create'
 import Redirect from '@/components/Redirect'
 import Register from '@/components/Register'
+import Update from '@/components/Update'
 import feather from 'vue-icon'
 import ResetPassword from '../components/ResetPassword'
 import ResetConfirmation from '../components/ResetConfirmation'
@@ -32,6 +33,11 @@ export default new Router({
       path: '/new/building',
       name: 'Create',
       component: Create
+    },
+    {
+      path: '/update/building/:id',
+      name: 'Update',
+      component: Update
     },
     {
       path: '/signup',
@@ -78,12 +84,12 @@ export default new Router({
     },
     {
       path: '/stage/building/:id',
-      name: 'Building',
+      name: 'Stage',
       component: Entity
     },
     {
       path: '/building/:id',
-      name: 'Stage',
+      name: 'Building',
       component: Building
     },
     {
@@ -106,6 +112,7 @@ export default new Router({
       component: Forbidden
     },
     {
+      name: 'Unauthorized',
       path: '/401',
       component: Unauthorized
     },

@@ -1,13 +1,12 @@
 <template>
     <div class="parent">
-      <composer v-if="composer.display" :building="b.name" :id="b.id" :suburb="b.address.suburb" :type="composer.type" v-on:close="close_composer"></composer>
       <header class="header">
         <navbar></navbar>
         <div class="map">
           <mapbox v-if="b" @map-load="marker" access-token="pk.eyJ1IjoibWV0bGVhc2UiLCJhIjoiY2pyYzA5ZW1sMThhdjN5cG45N24wZzk3aCJ9.sgPujNuDMhFzEElX-P83aQ" :map-options="{style: 'mapbox://styles/mapbox/streets-v11', center: [b.longitude, b.latitude], zoom: 15}"></mapbox>
         </div>
       </header>
-      <spinner :active="!b" spinner="spinner" color="rgba(239,98,108,1)"/>
+      <spinner :active="!b" spinner="spinner" color="rgba(128,128,128,1)"/>
       <main class="main" v-if="b">
         <div class="row">
           <div class="col-md-3 l">
@@ -15,7 +14,12 @@
               <img src="../assets/image/test_images/1.jpg" class="card-img-top" alt="...">
               <div class="card-body">
                 <h5 class="card-title">{{ b.name }}, {{ b.address.suburb }}</h5>
-                <div class="card-text card-text-score">
+                <div class="card-text card-text-rating">
+                  <div class="rating-helper">Rating out of 5</div>
+                  <div :class="`rating-vis rating-${b.mean}`"></div>
+                  <div class="rating-value">{{b.mean}}</div>
+                </div>
+                <!-- <div class="card-text card-text-score">
                   <div class="score">
                     <div v-for="(n, index) in parseInt(b.mean)" :key="index+1" class="icon-fill">
                       <i class="icon-star-fill"></i>
@@ -24,14 +28,18 @@
                       <i class="icon-star-outline"></i>
                     </div>
                   </div>
-                </div>
+                </div> -->
                 <address class="card-text text-capitalize">
                   {{ b.address.number }} {{ b.address.streetName }} {{b.address.suffix.toLocaleLowerCase() }}<br>
                   {{ b.address.suburb }}, {{ b.address.postCode }}<br>
                   {{ b.address.state }}
                 </address>
-                <a href="#" class="btn action-style">Add Residency</a>
-                <a href="#" class="btn action-style">Add to Watchlist</a>
+              </div>
+              <div class="card-footer">
+                <div class="row button-row">
+                  <div class="col-md-6"><a href="#" class="btn"><i class="material-icons">person_add</i></a></div>
+                  <div class="col-md-6"><a href="#" class="btn"><i class="material-icons">track_changes</i></a></div>
+                </div>
               </div>
             </div>
           </div>
@@ -106,10 +114,6 @@ export default {
         lib: ['../assets/image/test_images/1.jpg', '../assets/image/test_images/2.jpg', '../assets/image/test_images/3.jpg', '../assets/image/test_images/4.jpg'],
         modal: null,
         display: false
-      },
-      composer: {
-        type: null,
-        display: false
       }
     }
   },
@@ -128,16 +132,6 @@ export default {
       this.$http('building/id/' + vm.$route.params.id).then(r => {
         vm.b = r.data
       })
-    },
-    new_composer: function (type) {
-      var vm = this
-      vm.composer.type = type
-      vm.composer.display = true
-    },
-    close_composer: function () {
-      var vm = this
-      vm.composer.type = null
-      vm.composer.display = false
     }
   },
   created: function () {

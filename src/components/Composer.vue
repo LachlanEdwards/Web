@@ -1,23 +1,33 @@
 <template>
-  <div class="review-modal-component">
+  <div class="composer">
     <div class="container">
-      <div class="head">
-        <div class="subtitle"><h6>Compose for</h6></div>
-        <div class="title"><h2>{{ building }}, {{ suburb }}</h2></div>
-      </div>
       <div class="body">
-        <div class="rate" v-if="type === 1">
-          <div class="pre-text"><i class="icon-star-outline"></i> Rating</div>
-          <options :items="['5', '4', '3', '2', '1']" param="score" id="rating" class="custom-dropdown" v-on:option-select="updateRating"></options>
+        <div class="prop">
+          <div class="title">Write a rating for this building.</div>
+          <div class="value">
+            <label class="field-set-legend">If you've had a poor experience, try to resolve it with the building first. Respect that the staff of this building are human beings, do not defame them or publicise their name.</label>
+            <div class="filter">
+              <div class="rate">
+                <div class="pre-text"><i class="icon-star-outline"></i> Rating</div>
+                <options :items="['5', '4', '3', '2', '1']" param="score" id="rating" class="custom-dropdown" v-on:option-select="update($event, 'score')"></options>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="field">
-          <form class="field-set">
-            <textarea v-model="body.comment" class="edit field-set-input" id="id"></textarea>
-          </form>
-        </div>
-        <div class="buttons">
-          <div class="action" v-on:click="submit">Submit</div>
-          <div class="action" v-on:click="close">Cancel</div>
+        <div class="prop">
+          <div class="value">
+            <div class="field">
+              <form class="field-set">
+                <textarea v-model="body.comment" class="edit field-set-input" id="id"></textarea>
+                <div class="button-row">
+                  <div class="row">
+                    <div class="col-md-6 button-inline blue" v-on:click="submit">Submit</div>
+                    <div class="col-md-6 button-inline" v-on:click="close">Cancel</div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -27,11 +37,6 @@
 <script>
 /* eslint-disable semi */
 import Options from './options';
-const typenum = {
-  Blog: 0,
-  Review: 1,
-  Residents: 2
-}
 
 export default {
   name: 'Composer',
@@ -45,18 +50,6 @@ export default {
     }
   },
   props: {
-    type: {
-      type: Number,
-      required: true
-    },
-    building: {
-      type: String,
-      required: true
-    },
-    suburb: {
-      type: String,
-      required: true
-    },
     id: {
       type: Number,
       required: true
@@ -66,6 +59,7 @@ export default {
     update: function (item, param) {
       var vm = this;
       vm.body[param] = item;
+      vm.$emit('update');
     },
     close: function () {
       var vm = this;
@@ -73,16 +67,7 @@ export default {
     },
     submit: function () {
       var vm = this;
-      var url;
-      switch (vm.type) {
-        case typenum.Review:
-          url = 'building/id/' + vm.$route.params.id + '/reviews/new';
-          break;
-        case typenum.Blog:
-          break;
-        case typenum.Residents:
-          break;
-      }
+      var url = 'building/id/' + vm.$route.params.id + '/reviews/new';
       this.$http({
         method: 'POST',
         url: url,
@@ -101,105 +86,47 @@ export default {
 
 <style lang="less" scoped>
   @import '../../src/assets/css/stylesheet';
-  .review-modal-component {
-    z-index: 2147483647;
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: rgba(0,0,0,0.5);
-    -webkit-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
-    -moz-box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
-    box-shadow: 0px 0px 1em 0px rgba(0,0,0,0.15);
+  .composer {
+    margin-bottom: 2em;
     .container {
-      border-radius: 3px;
-      background-color: @white;
       padding: 0;
-      .head {
-        padding: 2em;
-        .accent();
-        color: @white;
-        .title {
-          h2 {
-            font-weight: bold;
-          }
-        }
-        .subtitle {
-          h6 {
-            font-size: 10px;
-            text-transform: uppercase;
-            font-weight: bold;
-            color: @white;
-          }
-        }
-      }
-      .buttons {
-        display: inline-flex;
-        .action {
-          border: none;
-          .accent();
-          font-weight: bold;
-          font-size: 10px;
-          text-transform: uppercase;
-          color: @white;
-          letter-spacing: 1px;
-          border-radius: 100px;
-          padding: 1em 2em;
-          width: 100%;
-          text-align: center;
-          margin: 0 1em 0 0;
-        }
-      }
-      .body {
-        padding: 2em;
-        .rate {
-          display: inline-flex;
+      .field {
+        .field-set {
           border: 1px solid @border-grey;
           border-radius: 3px;
-          margin: 0 0 1em 0;
-          .pre-text {
-            padding: 1em;
-            border-right: 1px solid @border-grey;
+          .field-set-input {
+            border: unset !important;
+            margin-bottom: 0 !important;
           }
-          .custom-dropdown {
-            padding: 1em;
+          .button-row {
+            width: 100%;
+            border-top: 1px solid @border-grey;
+            .button-inline:not(:last-child) {
+              border-right: 1px solid @border-grey;
+            }
+            .button-inline {
+              text-align: center;
+              padding: 1em;
+              cursor: pointer;
+            }
+            .button-inline.blue {
+              color: @theme;
+            }
           }
         }
-        .rate:not(:first-child) {
-          margin: 0 0 0 1em;
+      }
+      .rate {
+        display: inline-flex;
+        border: 1px solid @border-grey;
+        border-radius: 3px;
+        .pre-text {
+          padding: 1em;
+          border-right: 1px solid @border-grey;
+          color: @black;
         }
-        .field {
-          margin: 0 0 1em 0;
-          .field-set {
-            .field-set-legend {
-              font-weight: bold;
-              .field-set-legend-err {
-                color: @theme;
-                text-transform: uppercase;
-                font-weight: bold;
-                font-size: 10px;
-                letter-spacing: 1px;
-              }
-            }
-            textarea {
-              width: 100%;
-              height: 20vh;
-              resize: none;
-              padding: 1em;
-            }
-            .field-set-input {
-              padding: 1em;
-              margin: 0;
-              box-shadow: none;
-              outline: none;
-              border: 1px solid @border-grey;
-              border-radius: 3px;
-            }
-          }
+        .custom-dropdown {
+          border: unset !important;
+          padding: 1em;
         }
       }
     }

@@ -1,12 +1,10 @@
 <template>
   <div class="results">
+    <composer></composer>
     <div class="filter">
       <div class="filter-item">
         <div class="pre-text"><i class="icon-star-outline"></i> Rating</div>
         <options :items="['Any', '1', '2', '3', '4', '5']" param="score" id="filter-rating" class="custom-dropdown" v-on:option-select="update"></options>
-      </div>
-      <div v-if="allowed" class="filter-item btn action-style">
-        <div class="action" v-on:click="$emit('compose')">Write a Rating</div>
       </div>
     </div>
     <spinner :active="network" spinner="spinner" color="rgba(239,98,108,1)"/>
@@ -28,11 +26,12 @@
 <script>
 import UserRating from './user.rating'
 import Options from './options'
+import Composer from './Composer'
 import Spinner from 'vue-element-loading'
 
 export default {
   name: 'Results',
-  components: {UserRating, Options, Spinner},
+  components: {UserRating, Options, Spinner, Composer},
   props: {
     id: {
       type: String,
@@ -52,6 +51,9 @@ export default {
           'score': 'Any',
           'page': 0
         }
+      },
+      state: {
+        show: false
       }
     }
   },
@@ -62,6 +64,15 @@ export default {
         vm.r.results = r.data
         vm.network = false
       })
+    },
+    composer: function () {
+      var vm = this
+      var bool = vm.state.show
+      if (bool) {
+        vm.state.show = false
+      } else {
+        vm.state.show = true
+      }
     },
     parseDate: function (date) {
       var formatted = new Date(date)

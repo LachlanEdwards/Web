@@ -80,7 +80,6 @@ export default {
         .file {
           margin-right: 1em;
           margin-bottom: 1em;
-          .button-subtle-style();
           display: flex;
           flex-direction: row;
           justify-content: center;

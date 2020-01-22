@@ -27,7 +27,7 @@
                 <div class="title">Are you an official representative of the property?<span class="required">*</span></div>
                 <div class="value">
                   <label class="field-set-legend">We will try to find an official representative if you're not.</label>
-                  <options :items="['No', 'Yes']" param="class" id="representative" class="custom-dropdown" v-on:option-select="update"></options>
+                  <options :items="['No', 'Yes']" param="verification" id="verification" class="custom-dropdown" v-on:option-select="update"></options>
                 </div>
               </div>
               <div class="prop">
@@ -264,6 +264,7 @@ export default {
       page: 'create',
       user: false,
       form: {
+        verification: 'No',
         mail: null,
         phone: null,
         image: null,
